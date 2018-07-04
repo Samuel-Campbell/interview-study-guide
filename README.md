@@ -6,7 +6,7 @@ General Guidelines to solving interview problems
 ## 1. Arrays
 ### 1.1 Sorted
 **Binary Search**
-```
+```python
 def binary_search(array, target):
     mid = len(array) // 2
  
@@ -42,7 +42,7 @@ def binary_search(array, target):
 ### 1.3 Unstructured and Unsorted
 * Linear Search + Hashmap  
 * Merge Sort
-```
+```python
 def merge_sort(array):
     # Base case when array cannot be decomposed further
     if len(array) == 1:
@@ -53,6 +53,7 @@ def merge_sort(array):
  
     # sort left part
     left_array = merge_sort(array[:mid])
+    
     # sort right part
     right_array = merge_sort(array[mid:])
  
@@ -96,7 +97,7 @@ def sort(sorted_1, sorted_2):
     return res
 ```
 * Quick Sort
-```
+```python
 def quick_sort(array, start, end):
     # Base case when left pointer is greater or equal to right pointer then there is nothing left to sort
     if start >= end:
@@ -165,9 +166,90 @@ def swap(array, i, j):
 ### 3.1 Permutation, SubSet, Combination, Partition
 ### Use Backtracking
 **Combinations**  
+```python
+def combinations(n, k):
+    res = list()
+    backtrack(res, n, k)
+    return res
+ 
+ 
+def backtrack(res, n, k, combination=list(), start=0):
+    # if enough elements in combination list then append its copy to the results
+    if len(combination) == k:
+        res.append(combination.copy())
+        
+    else:
+        for i in range(start, len(n)):
+            # add element to combination
+            combination.append(n[i])
+            
+            # recursive call
+            backtrack(res, n, k, combination, i + 1)
+            
+            # pop last element
+            combination.pop()
+```
 **Permutations**  
+```python
+def permutations(nums):
+    res = list()
+    backtrack(res, nums)
+    return res
+ 
+ 
+def backtrack(res, nums, permutation=list(), index_used=set()):
+    if len(nums) == len(permutation):
+        res.append(permutation.copy())
+    else:
+        for i in range(len(nums)):
+            if i in index_used:
+                continue
+            permutation.append(nums[i])
+            index_used.add(i)
+            backtrack(res, nums, permutation)
+            permutation.pop()
+            index_used.remove(i)
+```
 **Sets**  
+```python
+def sets(nums):
+    res = list()
+    backtrack(res, nums)
+    return res
+ 
+ 
+def backtrack(res, nums, set_list=list(), start=0):
+    res.append(set_list.copy())
+    for i in range(start, len(nums)):
+        set_list.append(nums[i])
+        backtrack(res, nums, set_list, i + 1)
+        set_list.pop()
+```
 **Partitions** 
+```python
+def partitions(string):
+    res = list()
+    backtrack(res, string)
+    return res
+ 
+ 
+def backtrack(res, string, partition=list(), start=0):
+    if len(partition) == 4:
+        res.append(partition.copy())
+    else:
+        for i in range(start, len(string)):
+            segment = string[start:i + 1]
+            if is_valid(segment):
+                partition.append(segment)
+                backtrack(res, string, partition, i + 1)
+                partition.pop()
+ 
+ 
+def is_valid(segment):
+    if len(segment) != 1:
+        return False
+    return True
+```
 
 ### 3.2 String Matching
 * Dynamic Programming
