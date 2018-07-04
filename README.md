@@ -331,9 +331,13 @@ Data Structure:
 1) Iterate Values and append them to the stack until halfway point
 2. Keep iterating values and compare them to the popped element of the stack.   
 
+---
+
 ## 7. Patterns
 ### 7.1 Create all valid patterns
 * Recursion
+
+---
 
 ## 8. String Manipulation
 ### 8.1 String Matching
@@ -342,6 +346,8 @@ Data Structure:
 
 ### 8.2 Unique Characters in a String
 * Bit Manipulation --> 26 bit integer where every character is a letter in the alphabet
+
+---
 
 ## 9. Updating + Adding/Removing elements  
 Some problems require us to add/remove elements in O(1) time as well as updating them in O(1) time.  
