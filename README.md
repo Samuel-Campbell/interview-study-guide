@@ -1,10 +1,13 @@
 # Study Guide
-General Guidelines to solving interview problems
+This guide provides various problem solving methods depending on the context. All methodologies are sorted in ascending order of implementation difficulty for every category.  
+*Please note that this list is subjective to my understanding of the subject. Furthermore the classification of problems and steps followed to resolve them are simply my train of thought written down **and not** an empirical approach to problem solving.*
 
 ---
 
 ## 1. Arrays
-### 1.1 Sorted
+### 1.1 Sorted  
+Almost every sorted array problems can be solved using binary search.  
+
 **Binary Search**
 ```python
 def binary_search(array, target):
@@ -14,34 +17,49 @@ def binary_search(array, target):
         # out of bounds
         if mid < 0 or mid >= len(array):
             return False
+        
         # value found
         if target == array[mid]:
             return True
+            
+        else:
+            # cut remainder of array in half
+            half = (len(array) - mid) // 2    
  
-        # cut remainder of array in half
-        half = (len(array) - mid) // 2    
- 
-        # if there is nothing left to cut in half
-        if half == 0:
-            return False        
-        # target greater than value at array index
-        elif target > array[mid]:
-            mid = mid + half
-        # target lower than value at array index
-        elif target < array[mid]:
-            mid = mid - half
+            # if there is nothing left to cut in half
+            if half == 0:
+                return False        
+            # target greater than value at array index
+            elif target > array[mid]:
+                mid = mid + half
+            # target lower than value at array index
+            elif target < array[mid]:
+                mid = mid - half
 ```
 
-### 1.2 Structured
-* Binary Search
-* Convert to Graph problem 
-    Try and see if the question uses an array to represent a graph.
-* Dynamic Programming  
-    Find recurring relationship on right and/or left sides of each elements
+### 1.2 Structured  
+A structured array implies, that even though the values aren't sorted, there exists some logical sequence to the elements.  
 
-### 1.3 Unstructured and Unsorted
-* Linear Search + Hashmap  
-* Merge Sort
+**Does Binary Search work?**  
+
+**Is it a Graph problem?**  
+* Hill Climbing --> Finding local maxima
+* Traversing the array from point A to point B given special requirements --> DFS/BFS  
+  
+**Is it a dynamic programming problem?**  
+Find a recurrence relationship between the numbers which come before and/or after a value at index i. 
+
+### 1.3 Unstructured and Unsorted  
+If section 1.1 and 1.2 are not true then the array is randomly sorted and there are no logical sequences to the value distribution.  
+
+**Linear Search**  
+Some problems involve finding particular kinds of values such as the 2 greatest integers.
+
+**Linear Search + Hash (memoize)**  
+Some problems involve finding matching pairs of values. In order to avoid backtracking previously seen elements, use a hash to store content as the traversal is performed. **Always** ask if space complexity is an issue before proceeding with this method. If so then skip to quicksort.   
+
+**Merge Sort**  
+If sorting is a must then merge sort can be completed in O(nlogn) + O(n)
 ```python
 def merge_sort(array):
     # Base case when array cannot be decomposed further
@@ -96,7 +114,8 @@ def sort(sorted_1, sorted_2):
             break
     return res
 ```
-* Quick Sort
+**Quick Sort**  
+If memory complexity is a problem or the interviewer asks for more than 1 sorting algorithm then quicksort can be performed with an average case of O(nlogn) + O(1).
 ```python
 def quick_sort(array, start, end):
     # Base case when left pointer is greater or equal to right pointer then there is nothing left to sort
@@ -158,14 +177,21 @@ def swap(array, i, j):
 * Visit root --> left --> right
 
 ### 2.3 PostOrder
-* Visit left --> right --> root
+* Visit left --> right --> root  
 
----
+--- 
 
-## 3. String Manipulation
-### 3.1 Permutation, SubSet, Combination, Partition
-### Use Backtracking
+## 3 Permutation, SubSet, Combination, Partition  
+Certain problem involve finding combinations, sets, permutations, and/or partitions. In these 4 cases then backtracking is easy to use and can solve all these issues.
+
 **Combinations**  
+This solution is simply a n choose k implementation.  
+Parameters:
+* resulting list --> list of combinations
+* n --> set of all elements
+* k --> number of elements per combination
+* combinations --> temporary list
+* start --> so that we don't duplicate combinations since order does not matter
 ```python
 def combinations(n, k):
     res = list()
@@ -190,6 +216,11 @@ def backtrack(res, n, k, combination=list(), start=0):
             combination.pop()
 ```
 **Permutations**  
+Parameters:
+* resulting list --> list of permutation
+* nums --> set of all elements
+* permutation --> permutation list (temporary)
+* index_used --> All values are unique so we memoize the ones that were used
 ```python
 def permutations(nums):
     res = list()
@@ -211,6 +242,11 @@ def backtrack(res, nums, permutation=list(), index_used=set()):
             index_used.remove(i)
 ```
 **Sets**  
+Parameters:
+* resulting list
+* nums
+* set_list
+* start    
 ```python
 def sets(nums):
     res = list()
@@ -225,7 +261,14 @@ def backtrack(res, nums, set_list=list(), start=0):
         backtrack(res, nums, set_list, i + 1)
         set_list.pop()
 ```
-**Partitions** 
+**Partitions**  
+For partitioning is is important to create an *is_valid* method to make sure the segment we split fits the criteria of the given problem.  
+
+Parameters:
+* resulting list
+* string
+* partition
+* start 
 ```python
 def partitions(string):
     res = list()
@@ -251,22 +294,28 @@ def is_valid(segment):
     return True
 ```
 
-### 3.2 String Matching
-* Dynamic Programming
-* Tries
-
-### 3.3 Unique Characters in a String
-* Bit Manipulation --> 26 bit integer where every character is a letter in the alphabet
-
 ---
 
 ## 4. Graph
 ### 4.1 Shortest Path
-* Breath-first search
+**Breath-first search** 
+  
+Data structure:
+* Visited Nodes: Set
+* Open Nodes: Queue
 
 ### 4.2 All Path and/or Length does not matter
-* Depth-first search
-* Combination formula
+**Depth-first search**  
+
+Data Structure:  
+* Visited Nodes: Set
+* Open Nodes: Stack
+  
+**Combination formula**  
+* Binominal Coefficient --> n! / n!m!
+
+### 4.3 Local Maxima
+**Hill Climbing**
 
 ---
 
@@ -283,3 +332,11 @@ def is_valid(segment):
 
 ### 6.2 Create all valid patterns
 * Recursion
+
+## 7. String Manipulation
+### 7.1 String Matching
+* Dynamic Programming
+* Tries
+
+### 7.2 Unique Characters in a String
+* Bit Manipulation --> 26 bit integer where every character is a letter in the alphabet
