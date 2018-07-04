@@ -326,17 +326,30 @@ Data Structure:
 
 ---
 
-## 6. Pattern/Palindrom
-### 6.1 Verify if each bracket has a closing bracket
-* Iteration + Stack
+## 6. Palindrome
+### 6.1 Verify if palindrome  
+1) Iterate Values and append them to the stack until halfway point
+2. Keep iterating values and compare them to the popped element of the stack.   
 
-### 6.2 Create all valid patterns
+## 7. Patterns
+### 7.1 Create all valid patterns
 * Recursion
 
-## 7. String Manipulation
-### 7.1 String Matching
+## 8. String Manipulation
+### 8.1 String Matching
 * Dynamic Programming
 * Tries
 
-### 7.2 Unique Characters in a String
+### 8.2 Unique Characters in a String
 * Bit Manipulation --> 26 bit integer where every character is a letter in the alphabet
+
+## 9. Updating + Adding/Removing elements  
+Some problems require us to add/remove elements in O(1) time as well as updating them in O(1) time.  
+
+**Create a(n) model/object of the values**  
+  
+**If FIFO problem**  
+Use dictionary + queue where pointers to object is stored in both
+
+**If LIFO problem**  
+Use dictionary + stack where pointers to objects are stored in both.
