@@ -169,15 +169,106 @@ def swap(array, i, j):
 
 ---
 
-## 2. Tree Traversal
+## 2. Tree Traversal  
+1. Iterative Approach: Create Stack of nodes which have not visited right child
+2. Recursive Approach: Base Case --> Left and Right child are Null
+
+```python
+class TreeNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+```
+
 ### 2.1 Inorder
-* Visit left --> root --> right
+* Visit left --> root --> right  
 
+**Recursive**
+
+```python
+def inorder_traversal(root):
+    if root is None:
+        return
+    inorder_traversal(root.left)
+    print(root.val)
+    inorder_traversal(root.right)
+```
+**Iterative**
+```python
+def inorder_traversal(root):
+    stack = list()
+    while True:
+        if root:
+            stack.append(root)
+            root = root.left
+        elif len(stack) > 0:
+            root = stack.pop()
+            print(root.val) # Do Something
+            root = root.right
+        else:
+            break
+```
 ### 2.2 PreOrder
-* Visit root --> left --> right
+* Visit root --> left --> right  
 
+**Recursive**
+```python
+def preorder_traversal(root):
+    if root is None:
+        return    
+    print(root.val) # Do something with node
+    pre_order_traversal(root.left)
+    pre_order_traversal(root.right)
+```
+
+**Iterative**
+```python
+def preorder_traversal(root):
+    stack = list()
+    while (len(stack) > 0) or (root is not None):
+        print(root.val) # Do something with node
+        if root.left:
+            stack.append(root)
+            root = root.left
+        else:
+            root = stack.pop()
+            root = root.right
+```
 ### 2.3 PostOrder
 * Visit left --> right --> root  
+
+**Recursive**
+```python
+def postorder_traversal(root):
+    if root is None:
+        return
+    postorder_traversal(root.left)
+    postorder_traversal(root.right)
+    print(root.val) # Do something
+```
+
+**Iterative**
+```python
+def postorder_traversal(root):
+    stack = list()
+    stack.append(root)
+    prev = None
+    while len(stack) > 0:
+        node = stack[-1]
+        if (prev is None) or (prev.left == node) or (prev.right == node):
+            if node.left:
+                stack.append(node.left)
+            elif node.right:
+                stack.append(node.right)
+        elif node.left == prev:
+            if node.right:
+                stack.append(node.right)
+        else:
+            print(node.val) # Do Something
+            stack.pop()
+        prev = node
+```
 
 --- 
 
